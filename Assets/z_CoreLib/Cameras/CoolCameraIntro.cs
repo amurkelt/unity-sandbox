@@ -16,15 +16,13 @@ public class CoolCameraIntro : MonoBehaviour
     private float _remainingDuration = 1f;
     private int _index = 0;
     private Camera _cam;
-    private bool _showedSkipPrompt = false;
     private bool _shouldSkip;
 
     private void OnEnable()
     {
-        _cam = FindObjectOfType<Camera>();
+        _cam = FindFirstObjectByType<Camera>();
         MoveNext();
-        _cam.transform.position = _currentStartPoint.position;
-        _cam.transform.rotation = _currentStartPoint.rotation;
+        _cam.transform.SetPositionAndRotation(_currentStartPoint.position, _currentStartPoint.rotation);
         _finalWaypoint = waypoints[waypoints.Count - 1];
     }
 
@@ -41,8 +39,8 @@ public class CoolCameraIntro : MonoBehaviour
 
         _remainingDuration = Mathf.Max(0, _remainingDuration - Time.deltaTime);
         var amount = _remainingDuration / _currentDuration;
-        _cam.transform.position = Vector3.Lerp(_nextWaypoint.position, _currentStartPoint.position, amount);
-        _cam.transform.rotation = Quaternion.Lerp(_nextWaypoint.rotation, _currentStartPoint.rotation, amount);
+        _cam.transform.SetPositionAndRotation(Vector3.Lerp(_nextWaypoint.position, _currentStartPoint.position, amount),
+            Quaternion.Lerp(_nextWaypoint.rotation, _currentStartPoint.rotation, amount));
         if (_remainingDuration <= 0)
             MoveNext();
 

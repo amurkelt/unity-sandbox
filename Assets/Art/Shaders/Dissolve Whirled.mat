@@ -55,12 +55,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DissolveAmount: 0.423
-    - _DissolveScale: 40
-    - _OutlineThickness: 0.1
-    - _SpiralStrenght: 1
-    - _VerticalDissolve: 0.5
+    - _DissolveAmount: 0
+    - _DissolveScale: 15
+    - _OutlineThickness: 1
+    - _SpiralStrenght: 0
+    - _VerticalDissolve: 0
     m_Colors:
-    - _OutlineColor: {r: 0.5411765, g: 0.1686275, b: 0.8862746, a: 1}
+    - _OutlineColor: {r: 0.9490196, g: 0.21176471, b: 0.48235294, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

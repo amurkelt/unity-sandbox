@@ -1,0 +1,48 @@
+using UnityEngine;
+using UnityEngine.Windows;
+
+public class MenuManager : MonoBehaviour
+{
+
+    [SerializeField] private GameObject mainMenuCanvasGO;
+
+    private void Start()
+    {
+        mainMenuCanvasGO.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (InputManager.Instance.MenuOpenInput)
+        {
+            if (!PauseManager.Instance.IsPaused)
+                Pause();
+        }
+
+        // Comment from here if you want to disable unpause on same button
+        else if (InputManager.Instance.UIMenuCloseInput)
+        {
+            if (PauseManager.Instance.IsPaused)
+            {
+                Unpause();
+            }
+        }
+    }
+
+    private void Pause()
+    {
+        PauseManager.Instance.PauseGame();
+        mainMenuCanvasGO.SetActive(true);
+    }
+
+    private void Unpause()
+    {
+        PauseManager.Instance.UnpauseGame();
+        mainMenuCanvasGO.SetActive(false);
+    }
+
+    public void OnResumePress()
+    {
+        Unpause();
+    }
+}

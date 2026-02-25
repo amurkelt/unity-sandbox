@@ -37,7 +37,6 @@ RectTransform:
   - {fileID: 2182776798280973073}
   - {fileID: 4812713238270292447}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.05}
   m_AnchorMax: {x: 0.9, y: 0.6}
@@ -135,6 +134,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -225,6 +225,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 1866759171860415811}
     m_Modifications:
     - target: {fileID: 662668865743431276, guid: f170402f598ca6b4ca3cfd3d9ff305b3,
@@ -247,6 +248,11 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 662668865743431276, guid: f170402f598ca6b4ca3cfd3d9ff305b3,
+        type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 1626210038599110236, guid: f170402f598ca6b4ca3cfd3d9ff305b3,
         type: 3}
       propertyPath: m_textAlignment
@@ -261,6 +267,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_HorizontalAlignment
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1626210038599110236, guid: f170402f598ca6b4ca3cfd3d9ff305b3,
+        type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 3658314253098453241, guid: f170402f598ca6b4ca3cfd3d9ff305b3,
         type: 3}
@@ -453,6 +464,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f170402f598ca6b4ca3cfd3d9ff305b3, type: 3}
 --- !u!224 &7940594279348270453 stripped
 RectTransform:
@@ -465,6 +479,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 1866759171860415811}
     m_Modifications:
     - target: {fileID: 6431017465817375021, guid: 1130155e1418d414e85cb9a699491a30,
@@ -592,12 +607,20 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6907781183014348685, guid: 1130155e1418d414e85cb9a699491a30,
+        type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 7164500542856588802, guid: 1130155e1418d414e85cb9a699491a30,
         type: 3}
       propertyPath: m_Name
       value: OptionsDoneButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1130155e1418d414e85cb9a699491a30, type: 3}
 --- !u!224 &4812713238270292447 stripped
 RectTransform:
@@ -610,6 +633,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 1866759171860415811}
     m_Modifications:
     - target: {fileID: 8970765953507593010, guid: 31f42237a7e7edc4b83078b83d969b0e,
@@ -625,6 +649,11 @@ PrefabInstance:
     - target: {fileID: 8970765953711411776, guid: 31f42237a7e7edc4b83078b83d969b0e,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970765953834825952, guid: 31f42237a7e7edc4b83078b83d969b0e,
+        type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8970765953834825952, guid: 31f42237a7e7edc4b83078b83d969b0e,
@@ -989,6 +1018,9 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31f42237a7e7edc4b83078b83d969b0e, type: 3}
 --- !u!224 &2182776798280973073 stripped
 RectTransform:

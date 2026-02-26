@@ -13,14 +13,14 @@ public class MenuManager : MonoBehaviour
 
     void Update()
     {
-        if (InputManager.Instance.MenuOpenInput)
+        if (InputManager.Instance.WasMenuOpenPressed)
         {
             if (!PauseManager.Instance.IsPaused)
                 Pause();
         }
 
         // Comment from here if you want to disable unpause on same button
-        else if (InputManager.Instance.UIMenuCloseInput)
+        else if (InputManager.Instance.WasMenuClosePressed)
         {
             if (PauseManager.Instance.IsPaused)
             {

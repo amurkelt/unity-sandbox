@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         SpawnDamageParticles();
     }

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private ParticleSystem damageParticles;
@@ -12,7 +13,7 @@ public class Enemy : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void OnMouseDown()
+    private void OnMouseDown()
     {
         SpawnDamageParticles();
     }

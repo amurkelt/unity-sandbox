@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
 
 public class MenuManager : MonoBehaviour
@@ -44,5 +45,12 @@ public class MenuManager : MonoBehaviour
     public void OnResumePress()
     {
         Unpause();
+    }
+
+    public void OnResetPress()
+    {
+        GameManager.Instance.ResetScore();
+        Unpause();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

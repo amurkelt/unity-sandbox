@@ -56,4 +56,11 @@ public class HiddenObject : MonoBehaviour
     {
         sprite.color = Color.grey;
     }
+
+    public void ResetFound()
+    {
+        found = false;
+        PlayerPrefs.SetInt(objectId, 0);
+        sprite.color = Color.white;
+    }
 }

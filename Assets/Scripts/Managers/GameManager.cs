@@ -4,9 +4,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    private string levelScore;
 
     public int CurrentScore { get; private set; }
+    private string levelScore;
+    private HiddenObject[] hiddenObjectsCache;
 
     private void Awake()
     {
@@ -27,14 +28,35 @@ public class GameManager : MonoBehaviour
 
         CurrentScore = PlayerPrefs.GetInt(levelScore, 0);
 
-        HUDManager.Instance.UpdateText(CurrentScore);
+        UpdateScoreText();
+
+        hiddenObjectsCache = FindObjectsByType<HiddenObject>(FindObjectsSortMode.None);
     }
 
     public void AddScore(int amount)
     {
         CurrentScore += amount;
-        HUDManager.Instance.UpdateText(CurrentScore);
+        UpdateScoreText();
 
         PlayerPrefs.SetInt(levelScore, CurrentScore);
+    }
+
+    public void ResetScore()
+    {
+        CurrentScore = 0;
+
+        foreach (var obj in hiddenObjectsCache)
+        {
+            obj.ResetFound();
+        }
+
+        UpdateScoreText();
+
+        PlayerPrefs.SetInt(levelScore, 0);
+    }
+
+    private void UpdateScoreText()
+    {
+        HUDManager.Instance.UpdateText(CurrentScore);
     }
 }

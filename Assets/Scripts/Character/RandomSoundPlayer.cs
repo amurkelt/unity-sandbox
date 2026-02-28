@@ -4,11 +4,17 @@ public class RandomSoundPlayer : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
 
-    void Start()
+    private void Reset()
     {
         audioSource = GetComponent<AudioSource>();
     }
 
+    //void Start()
+    //{
+    //    audioSource = GetComponent<AudioSource>();
+    //}
+
+    [ContextMenu("PlayAudio")]
     public void PlayAudio()
     {
         if (audioSource != null)

@@ -1,11 +1,12 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(PolygonCollider2D))]
 public class HiddenObject : MonoBehaviour
 {
     [SerializeField] private string objectId;
-    [SerializeField] private RandomSoundPlayer randomSoundPlayer;
     [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private RandomSoundPlayer randomSoundPlayer;
     private bool found;
 
     private void Reset()
@@ -16,6 +17,12 @@ public class HiddenObject : MonoBehaviour
             objectId = gameObject.name;
 
         randomSoundPlayer = FindFirstObjectByType<RandomSoundPlayer>();
+
+        var collider = GetComponent<PolygonCollider2D>();
+        if (collider != null)
+        {
+            collider.useDelaunayMesh = true;
+        }
     }
 
     //private void Awake()
@@ -30,7 +37,7 @@ public class HiddenObject : MonoBehaviour
     {
         found = PlayerPrefs.GetInt(objectId, 0) == 1;
         if (found)
-            ApplyFoundVisual();
+            ChangeColor();
     }
 
     private void OnMouseDown()
@@ -38,14 +45,14 @@ public class HiddenObject : MonoBehaviour
         if (found) return;
 
         found = true;
-
+        GameManager.Instance.AddScore(1);
         PlayerPrefs.SetInt(objectId, 1);
 
         randomSoundPlayer.PlayAudio();
-        ApplyFoundVisual();
+        ChangeColor();
     }
 
-    private void ApplyFoundVisual()
+    private void ChangeColor()
     {
         sprite.color = Color.grey;
     }

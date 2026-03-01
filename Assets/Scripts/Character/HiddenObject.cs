@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(PolygonCollider2D))]
@@ -35,7 +36,8 @@ public class HiddenObject : MonoBehaviour
 
     private void Start()
     {
-        found = PlayerPrefs.GetInt(objectId, 0) == 1;
+        var levelData = SaveManager.GetLevel(GameManager.Instance.LevelName);
+        found = levelData.foundObjectIds.Contains(objectId);
 
         if (found)
             ChangeColor();
@@ -47,11 +49,15 @@ public class HiddenObject : MonoBehaviour
         if (PauseManager.Instance.IsPaused) return;
 
         found = true;
-        PlayerPrefs.SetInt(objectId, 1);
-        PlayerPrefs.Save();
+
+        var levelData = SaveManager.GetLevel(GameManager.Instance.LevelName);
+        if (!levelData.foundObjectIds.Contains(objectId))
+            levelData.foundObjectIds.Add(objectId);
+
+        SaveManager.SaveLevel(levelData);
 
         randomSoundPlayer.PlayAudio();
-        //Animate();
+        Animate();
         ChangeColor();
 
         GameManager.Instance.AddScore(1);
@@ -70,7 +76,6 @@ public class HiddenObject : MonoBehaviour
     public void ResetFound()
     {
         found = false;
-        PlayerPrefs.SetInt(objectId, 0);
         sprite.color = Color.white;
     }
 }

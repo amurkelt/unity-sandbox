@@ -8,10 +8,8 @@ public class GameManager : MonoBehaviour
     public int FoundObjects { get; private set; }
 
     [SerializeField] private string levelName;
+    public string LevelName => levelName;
     [SerializeField] private MenuManager menuManager;
-
-    private string levelProgress;
-    private string lastTime;
 
     private HiddenObject[] hiddenObjectsCache;
     private int totalObjects;
@@ -39,23 +37,17 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        levelProgress = levelName + "Progress";
-        lastTime = levelName + "LastTime";
+        var levelData = SaveManager.GetLevel(levelName);
 
-        FoundObjects = PlayerPrefs.GetInt(levelProgress, 0);
+        FoundObjects = levelData.objectsFound;
         UpdateCountText();
 
-        float savedTime = PlayerPrefs.GetFloat(lastTime, 0f);
-        UpdateTimeText(savedTime);
+        UpdateTimeText(levelData.bestTime);
 
         if (IsLevelCompleted)
-        {
             LevelTimer.Instance.StopTimer();
-        }
         else
-        {
-            LevelTimer.Instance.StartTimer(savedTime);
-        }
+            LevelTimer.Instance.StartTimer(levelData.bestTime);
     }
 
     public void AddScore(int amount)
@@ -63,36 +55,36 @@ public class GameManager : MonoBehaviour
         FoundObjects += amount;
         UpdateCountText();
 
+        var levelData = SaveManager.GetLevel(levelName);
+        levelData.objectsFound = FoundObjects;
+        SaveManager.SaveLevel(levelData);
+
         if (IsLevelCompleted)
             CompleteLevel();
-
-        PlayerPrefs.SetInt(levelProgress, FoundObjects);
-        PlayerPrefs.Save();
     }
 
     public void ResetScore()
     {
         FoundObjects = 0;
 
-        foreach (var obj in hiddenObjectsCache)
-        {
-            obj.ResetFound();
-        }
+        var levelData = SaveManager.GetLevel(levelName);
+        levelData.objectsFound = 0;
+        levelData.bestTime = 0;
+        levelData.foundObjectIds.Clear();
 
-        //UpdateCountText();
-        //UpdateTimeText(0f);
-
-        PlayerPrefs.SetInt(levelProgress, 0);
-        PlayerPrefs.SetFloat(lastTime, 0.0f);
-        PlayerPrefs.Save();
+        SaveManager.SaveLevel(levelData);
     }
 
     public void SaveElapsedTime()
     {
         float time = LevelTimer.Instance.GetTime();
-        PlayerPrefs.SetFloat(lastTime, time);
-        Debug.LogError($"time {time}");
-        PlayerPrefs.Save();
+
+        var levelData = SaveManager.GetLevel(levelName);
+
+        if (levelData.bestTime == 0 || time < levelData.bestTime)
+            levelData.bestTime = time;
+
+        SaveManager.SaveLevel(levelData);
     }
 
     private void UpdateCountText()

@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         mainMenuCanvasGO.SetActive(false);
-        winCanvasGO.SetActive(false);
+        winCanvasGO.SetActive(GameManager.Instance.IsLevelCompleted());
     }
 
     void Update()

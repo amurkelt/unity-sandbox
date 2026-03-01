@@ -48,7 +48,11 @@ public class GameManager : MonoBehaviour
         float savedTime = PlayerPrefs.GetFloat(lastTime, 0f);
         UpdateTimeText(savedTime);
 
-        if (!IsLevelCompleted())
+        if (IsLevelCompleted())
+        {
+            LevelTimer.Instance.StopTimer();
+        }
+        else
         {
             LevelTimer.Instance.StartTimer(savedTime);
         }
@@ -98,10 +102,10 @@ public class GameManager : MonoBehaviour
     private void UpdateTimeText(float elapsedTime)
     {
         HUDManager.Instance.UpdateTimerText(elapsedTime);
-        Debug.LogError($"elapsedTime {elapsedTime}");
+        Debug.LogError($"time {elapsedTime}");
     }
 
-    private bool IsLevelCompleted()
+    public bool IsLevelCompleted()
     {
         return FoundObjects >= totalObjects;
     }

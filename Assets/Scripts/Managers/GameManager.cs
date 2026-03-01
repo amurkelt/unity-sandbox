@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        hiddenObjectsCache = FindObjectsByType<HiddenObject>(FindObjectsSortMode.None);
+        totalObjects = hiddenObjectsCache.Length;
     }
 
     private void Start()
@@ -42,13 +45,10 @@ public class GameManager : MonoBehaviour
         FoundObjects = PlayerPrefs.GetInt(levelProgress, 0);
         UpdateCountText();
 
-        hiddenObjectsCache = FindObjectsByType<HiddenObject>(FindObjectsSortMode.None);
-        totalObjects = hiddenObjectsCache.Length;
-
         float savedTime = PlayerPrefs.GetFloat(lastTime, 0f);
         UpdateTimeText(savedTime);
 
-        if (IsLevelCompleted())
+        if (IsLevelCompleted)
         {
             LevelTimer.Instance.StopTimer();
         }
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
         FoundObjects += amount;
         UpdateCountText();
 
-        if (IsLevelCompleted())
+        if (IsLevelCompleted)
             CompleteLevel();
 
         PlayerPrefs.SetInt(levelProgress, FoundObjects);
@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
         }
 
         //UpdateCountText();
+        //UpdateTimeText(0f);
 
         PlayerPrefs.SetInt(levelProgress, 0);
         PlayerPrefs.SetFloat(lastTime, 0.0f);
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateCountText()
     {
-        HUDManager.Instance.UpdateCounterText(FoundObjects);
+        HUDManager.Instance.UpdateCounterText(FoundObjects, totalObjects);
     }
 
     private void UpdateTimeText(float elapsedTime)
@@ -105,10 +106,7 @@ public class GameManager : MonoBehaviour
         Debug.LogError($"time {elapsedTime}");
     }
 
-    public bool IsLevelCompleted()
-    {
-        return FoundObjects >= totalObjects;
-    }
+    public bool IsLevelCompleted => FoundObjects >= totalObjects;
 
     private void CompleteLevel()
     {

@@ -5,8 +5,8 @@ public class HUDManager : MonoBehaviour
 {
     public static HUDManager Instance;
 
-    [SerializeField] private TextMeshProUGUI score;
-    [SerializeField] private TextMeshProUGUI time;
+    [SerializeField] private TextMeshProUGUI progress;
+    [SerializeField] private TextMeshProUGUI timer;
 
     private void Awake()
     {
@@ -20,9 +20,9 @@ public class HUDManager : MonoBehaviour
         }
     }
 
-    public void UpdateCounterText(int currentAmount)
+    public void UpdateCounterText(int currentAmount, int totalAmount)
     {
-        score.text = currentAmount.ToString();
+        progress.text = $"{currentAmount}/{totalAmount}";
     }
 
     public void UpdateTimerText(float elapsedTime)
@@ -30,6 +30,6 @@ public class HUDManager : MonoBehaviour
         int minutes = Mathf.FloorToInt(elapsedTime / 60f);
         int seconds = Mathf.FloorToInt(elapsedTime % 60f);
 
-        time.text = $"{minutes:00}:{seconds:00}";
+        timer.text = $"{minutes:00}:{seconds:00}";
     }
 }

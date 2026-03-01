@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         mainMenuCanvasGO.SetActive(false);
-        winCanvasGO.SetActive(GameManager.Instance.IsLevelCompleted());
+        winCanvasGO.SetActive(GameManager.Instance.IsLevelCompleted);
     }
 
     void Update()
@@ -34,6 +34,8 @@ public class MenuManager : MonoBehaviour
 
     private void Pause()
     {
+        if (winCanvasGO.activeSelf) return;
+
         PauseManager.Instance.PauseGame();
         mainMenuCanvasGO.SetActive(true);
     }
@@ -53,6 +55,7 @@ public class MenuManager : MonoBehaviour
     {
         GameManager.Instance.ResetScore();
         Unpause();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

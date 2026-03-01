@@ -58,6 +58,15 @@ public class MenuManager : MonoBehaviour
 
     public void ShowLevelComplete()
     {
+        // Win condition
         winCanvasGO.SetActive(true);
+    }
+
+    public void OnMainMenuPress()
+    {
+        // Main Menu Return
+        GameManager.Instance.SaveElapsedTime();
+        Unpause();
+        SceneManager.LoadScene("MainMenu");
     }
 }

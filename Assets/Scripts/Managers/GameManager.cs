@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private string lastTime;
 
     private HiddenObject[] hiddenObjectsCache;
-    private readonly int totalObjects = 100;
+    private int totalObjects;
 
     private void Reset()
     {
@@ -40,19 +40,18 @@ public class GameManager : MonoBehaviour
         lastTime = levelName + "LastTime";
 
         FoundObjects = PlayerPrefs.GetInt(levelProgress, 0);
-
         UpdateCountText();
 
-        if (IsLevelCompleted())
-        {
-            UpdateTimeText(PlayerPrefs.GetFloat(lastTime, 0));
-        }
-        else
-        {
-            LevelTimer.Instance.StartTimer();
-        }
-
         hiddenObjectsCache = FindObjectsByType<HiddenObject>(FindObjectsSortMode.None);
+        totalObjects = hiddenObjectsCache.Length;
+
+        float savedTime = PlayerPrefs.GetFloat(lastTime, 0f);
+        UpdateTimeText(savedTime);
+
+        if (!IsLevelCompleted())
+        {
+            LevelTimer.Instance.StartTimer(savedTime);
+        }
     }
 
     public void AddScore(int amount)
@@ -64,6 +63,7 @@ public class GameManager : MonoBehaviour
             CompleteLevel();
 
         PlayerPrefs.SetInt(levelProgress, FoundObjects);
+        PlayerPrefs.Save();
     }
 
     public void ResetScore()
@@ -79,6 +79,15 @@ public class GameManager : MonoBehaviour
 
         PlayerPrefs.SetInt(levelProgress, 0);
         PlayerPrefs.SetFloat(lastTime, 0.0f);
+        PlayerPrefs.Save();
+    }
+
+    public void SaveElapsedTime()
+    {
+        float time = LevelTimer.Instance.GetTime();
+        PlayerPrefs.SetFloat(lastTime, time);
+        Debug.LogError($"time {time}");
+        PlayerPrefs.Save();
     }
 
     private void UpdateCountText()
@@ -89,25 +98,18 @@ public class GameManager : MonoBehaviour
     private void UpdateTimeText(float elapsedTime)
     {
         HUDManager.Instance.UpdateTimerText(elapsedTime);
+        Debug.LogError($"elapsedTime {elapsedTime}");
     }
 
     private bool IsLevelCompleted()
     {
-        if (FoundObjects >= totalObjects)
-        {
-            return true;
-        }
-        else { return false; }
+        return FoundObjects >= totalObjects;
     }
 
     private void CompleteLevel()
     {
         LevelTimer.Instance.StopTimer();
-
-        float time = LevelTimer.Instance.GetTime();
-        PlayerPrefs.SetFloat(lastTime, time);
-
-        PlayerPrefs.Save();
+        SaveElapsedTime();
 
         menuManager.ShowLevelComplete();
     }

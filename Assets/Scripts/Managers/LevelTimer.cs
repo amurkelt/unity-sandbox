@@ -22,9 +22,9 @@ public class LevelTimer : MonoBehaviour
         UpdateTimeText();
     }
 
-    public void StartTimer()
+    public void StartTimer(float startTime = 0f)
     {
-        elapsed = 0f;
+        elapsed = startTime;
         running = true;
     }
 

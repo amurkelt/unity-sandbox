@@ -27,6 +27,9 @@ public class HUDManager : MonoBehaviour
 
     public void UpdateTimerText(float elapsedTime)
     {
-        time.text = elapsedTime.ToString();
+        int minutes = Mathf.FloorToInt(elapsedTime / 60f);
+        int seconds = Mathf.FloorToInt(elapsedTime % 60f);
+
+        time.text = $"{minutes:00}:{seconds:00}";
     }
 }

@@ -5,9 +5,22 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public int CurrentScore { get; private set; }
-    private string levelScore;
+    public int FoundObjects { get; private set; }
+
+    [SerializeField] private string levelName;
+    [SerializeField] private MenuManager menuManager;
+
+    private string levelProgress;
+    private string lastTime;
+
     private HiddenObject[] hiddenObjectsCache;
+    private readonly int totalObjects = 100;
+
+    private void Reset()
+    {
+        levelName = SceneManager.GetActiveScene().name;
+        menuManager = FindFirstObjectByType<MenuManager>();
+    }
 
     private void Awake()
     {
@@ -23,40 +36,79 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        string sceneName = SceneManager.GetActiveScene().name.ToString();
-        levelScore = sceneName + "Score";
+        levelProgress = levelName + "Progress";
+        lastTime = levelName + "LastTime";
 
-        CurrentScore = PlayerPrefs.GetInt(levelScore, 0);
+        FoundObjects = PlayerPrefs.GetInt(levelProgress, 0);
 
-        UpdateScoreText();
+        UpdateCountText();
+
+        if (IsLevelCompleted())
+        {
+            UpdateTimeText(PlayerPrefs.GetFloat(lastTime, 0));
+        }
+        else
+        {
+            LevelTimer.Instance.StartTimer();
+        }
 
         hiddenObjectsCache = FindObjectsByType<HiddenObject>(FindObjectsSortMode.None);
     }
 
     public void AddScore(int amount)
     {
-        CurrentScore += amount;
-        UpdateScoreText();
+        FoundObjects += amount;
+        UpdateCountText();
 
-        PlayerPrefs.SetInt(levelScore, CurrentScore);
+        if (IsLevelCompleted())
+            CompleteLevel();
+
+        PlayerPrefs.SetInt(levelProgress, FoundObjects);
     }
 
     public void ResetScore()
     {
-        CurrentScore = 0;
+        FoundObjects = 0;
 
         foreach (var obj in hiddenObjectsCache)
         {
             obj.ResetFound();
         }
 
-        UpdateScoreText();
+        //UpdateCountText();
 
-        PlayerPrefs.SetInt(levelScore, 0);
+        PlayerPrefs.SetInt(levelProgress, 0);
+        PlayerPrefs.SetFloat(lastTime, 0.0f);
     }
 
-    private void UpdateScoreText()
+    private void UpdateCountText()
     {
-        HUDManager.Instance.UpdateText(CurrentScore);
+        HUDManager.Instance.UpdateCounterText(FoundObjects);
+    }
+
+    private void UpdateTimeText(float elapsedTime)
+    {
+        HUDManager.Instance.UpdateTimerText(elapsedTime);
+    }
+
+    private bool IsLevelCompleted()
+    {
+        if (FoundObjects >= totalObjects)
+        {
+            return true;
+        }
+        else { return false; }
+    }
+
+    private void CompleteLevel()
+    {
+        LevelTimer.Instance.StopTimer();
+
+        float time = LevelTimer.Instance.GetTime();
+        PlayerPrefs.SetFloat(lastTime, time);
+
+        PlayerPrefs.Save();
+
+        menuManager.ShowLevelComplete();
     }
 }

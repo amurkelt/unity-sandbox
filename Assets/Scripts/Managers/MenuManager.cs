@@ -6,10 +6,12 @@ public class MenuManager : MonoBehaviour
 {
 
     [SerializeField] private GameObject mainMenuCanvasGO;
+    [SerializeField] private GameObject winCanvasGO;
 
     private void Start()
     {
         mainMenuCanvasGO.SetActive(false);
+        winCanvasGO.SetActive(false);
     }
 
     void Update()
@@ -52,5 +54,10 @@ public class MenuManager : MonoBehaviour
         GameManager.Instance.ResetScore();
         Unpause();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ShowLevelComplete()
+    {
+        winCanvasGO.SetActive(true);
     }
 }

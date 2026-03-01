@@ -36,6 +36,7 @@ public class HiddenObject : MonoBehaviour
     private void Start()
     {
         found = PlayerPrefs.GetInt(objectId, 0) == 1;
+
         if (found)
             ChangeColor();
     }
@@ -43,13 +44,22 @@ public class HiddenObject : MonoBehaviour
     private void OnMouseDown()
     {
         if (found) return;
+        if (PauseManager.Instance.IsPaused) return;
 
         found = true;
-        GameManager.Instance.AddScore(1);
         PlayerPrefs.SetInt(objectId, 1);
+        PlayerPrefs.Save();
 
         randomSoundPlayer.PlayAudio();
+        //Animate();
         ChangeColor();
+
+        GameManager.Instance.AddScore(1);
+    }
+
+    private void Animate()
+    {
+
     }
 
     private void ChangeColor()

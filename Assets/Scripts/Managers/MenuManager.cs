@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Windows;
 
 public class MenuManager : MonoBehaviour
 {
@@ -11,6 +10,8 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         mainMenuCanvasGO.SetActive(false);
+
+        // Optional - call win panel on level enter
         winCanvasGO.SetActive(GameManager.Instance.IsLevelCompleted);
     }
 

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(PolygonCollider2D))]

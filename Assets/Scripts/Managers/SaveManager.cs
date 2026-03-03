@@ -9,6 +9,7 @@ public class GameSaveData
     public List<LevelSaveData> levels = new();
     public SettingsSaveData settings = new();
     public List<string> unlockedAchievements = new();
+    public double totalPlaytime;
 }
 
 [Serializable]
@@ -16,6 +17,7 @@ public class LevelSaveData
 {
     public string levelName;
     public int objectsFound;
+    public int totalObjects;
     public float bestTime;
     public List<string> foundObjectIds = new();
 
@@ -23,6 +25,7 @@ public class LevelSaveData
     {
         levelName = name;
         objectsFound = 0;
+        totalObjects = 0;
         bestTime = 0f;
     }
 }
@@ -40,6 +43,8 @@ public static class SaveManager
     private const string SAVE_KEY = "GAME_SAVE_DATA";
     private static GameSaveData _data;
 
+    #region Initialization
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
     {
@@ -52,6 +57,9 @@ public static class SaveManager
         {
             _data = JsonUtility.FromJson<GameSaveData>(
                 PlayerPrefs.GetString(SAVE_KEY));
+
+            if (_data == null)
+                _data = new GameSaveData();
         }
         else
         {
@@ -66,7 +74,9 @@ public static class SaveManager
         PlayerPrefs.Save();
     }
 
-    // ---------------- LEVEL ----------------
+    #endregion
+
+    #region LEVELS
 
     public static LevelSaveData GetLevel(string levelName)
     {
@@ -82,21 +92,33 @@ public static class SaveManager
         return level;
     }
 
+    public static List<LevelSaveData> GetAllLevels()
+    {
+        return _data.levels;
+    }
+
     public static void SaveLevel(LevelSaveData level)
     {
         Save();
     }
 
-    // ---------------- SETTINGS ----------------
+    #endregion
 
-    public static SettingsSaveData GetSettings() => _data.settings;
+    #region SETTINGS
+
+    public static SettingsSaveData GetSettings()
+    {
+        return _data.settings;
+    }
 
     public static void SaveSettings()
     {
         Save();
     }
 
-    // ---------------- ACHIEVEMENTS ----------------
+    #endregion
+
+    #region ACHIEVEMENTS
 
     public static void UnlockAchievement(string id)
     {
@@ -111,4 +133,26 @@ public static class SaveManager
     {
         return _data.unlockedAchievements.Contains(id);
     }
+
+    public static List<string> GetUnlockedAchievements()
+    {
+        return _data.unlockedAchievements;
+    }
+
+    #endregion
+
+    #region PLAYTIME
+
+    public static double GetTotalPlaytime()
+    {
+        return _data.totalPlaytime;
+    }
+
+    public static void AddPlaytime(double seconds)
+    {
+        _data.totalPlaytime += seconds;
+        Save();
+    }
+
+    #endregion
 }

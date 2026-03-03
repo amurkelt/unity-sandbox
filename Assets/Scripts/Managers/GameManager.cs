@@ -39,6 +39,12 @@ public class GameManager : MonoBehaviour
     {
         var levelData = SaveManager.GetLevel(levelName);
 
+        if (levelData.totalObjects == 0)
+        {
+            levelData.totalObjects = totalObjects;
+            SaveManager.SaveLevel(levelData);
+        }
+
         FoundObjects = levelData.objectsFound;
         UpdateCountText();
 
@@ -61,6 +67,8 @@ public class GameManager : MonoBehaviour
 
         if (IsLevelCompleted)
             CompleteLevel();
+
+        AchievementManager.Instance.CheckAll();
     }
 
     public void ResetScore()
@@ -106,5 +114,7 @@ public class GameManager : MonoBehaviour
         SaveElapsedTime();
 
         menuManager.ShowLevelComplete();
+
+        AchievementManager.Instance.CheckAll();
     }
 }

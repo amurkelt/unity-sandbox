@@ -2,7 +2,12 @@ using UnityEngine;
 
 public class PlaytimeTracker : MonoBehaviour
 {
-    private float sessionTime;
+    private double sessionTime;
+
+    public static double TotalPlayTime
+    {
+        get => SaveManager.GetTotalPlaytime();
+    }
 
     private void Update()
     {
@@ -12,17 +17,13 @@ public class PlaytimeTracker : MonoBehaviour
     private void OnApplicationPause(bool pause)
     {
         if (pause)
-        {
             Save();
-        }
     }
 
     private void OnApplicationFocus(bool focus)
     {
         if (!focus)
-        {
             Save();
-        }
     }
 
     private void OnApplicationQuit()
@@ -30,14 +31,14 @@ public class PlaytimeTracker : MonoBehaviour
         Save();
     }
 
-    public void Save()
+    private void Save()
     {
-        var totalPlayTime = PlayerPrefs.GetFloat("PlayTime", 0);
-        totalPlayTime += sessionTime;
+        if (sessionTime <= 0)
+            return;
 
-        PlayerPrefs.SetFloat("PlayTime", totalPlayTime);
-        //PlayerPrefs.Save();
+        SaveManager.AddPlaytime(sessionTime);
+        sessionTime = 0;
 
-        sessionTime = 0f;
+        AchievementManager.Instance.CheckAll();
     }
 }

@@ -3002,7 +3002,7 @@ GameObject:
   - component: {fileID: 1510771386}
   - component: {fileID: 1510771385}
   m_Layer: 0
-  m_Name: samplebg
+  m_Name: bush_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3035,7 +3035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aa11f80667d77e498ce782f6a49ae0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectId: samplebg
+  objectId: tree_01
   sprite: {fileID: 1510771387}
   randomSoundPlayer: {fileID: 727513773}
 --- !u!60 &1510771386

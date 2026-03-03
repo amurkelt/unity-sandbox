@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class UIButtonPromptsSwitcher : MonoBehaviour
@@ -8,7 +9,13 @@ public class UIButtonPromptsSwitcher : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        Invoke(nameof(SwitchUIButtonPrompts), 0.1f);
+        //Invoke(nameof(SwitchUIButtonPrompts), 0.1f);
+    }
+
+    private IEnumerator Start()
+    {
+        yield return null;
+        SwitchUIButtonPrompts();
     }
 
     public void SwitchUIButtonPrompts()
